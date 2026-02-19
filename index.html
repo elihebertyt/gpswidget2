@@ -14,17 +14,25 @@ body {
   font-family: Arial, sans-serif;
 }
 
+#container {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 20px 50px;
+  border-radius: 20px;
+}
+
 #km {
   font-size: 80px;
   font-weight: bold;
   color: white;
-  text-shadow: 0 0 20px rgba(0,0,0,0.8);
+  text-shadow: 0 0 15px rgba(0,0,0,0.8);
 }
 </style>
 </head>
 <body>
 
-<div id="km">0.00 km</div>
+<div id="container">
+  <div id="km">0.0 KM</div>
+</div>
 
 <script>
 let totalDistance = 0;
@@ -60,7 +68,7 @@ function updatePosition(position) {
       lon
     );
 
-    // Ignora variações menores que 5 metros (erro de GPS)
+    // Ignora erro pequeno de GPS
     if (distance > 5) {
       totalDistance += distance;
     }
@@ -68,8 +76,9 @@ function updatePosition(position) {
 
   lastPosition = { lat, lon };
 
-  document.getElementById("km").innerText =
-    (totalDistance / 1000).toFixed(2) + " km";
+  const km = (totalDistance / 1000).toFixed(1);
+
+  document.getElementById("km").innerText = km + " KM";
 }
 
 navigator.geolocation.watchPosition(updatePosition, null, {
